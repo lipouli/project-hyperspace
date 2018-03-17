@@ -3,7 +3,8 @@ function createStar() {
   var newStar = {
     x: round(random(window.innerWidth)),
     y: round(random(window.innerHeight)),
-    size: 2
+    size: 10,
+    intensity: 0.05
   };
   return newStar;
 }
@@ -18,25 +19,37 @@ function createStarField(nb) {
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  background(0);
+  noStroke();
   starField = createStarField(300);
   count = 0;
 }
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
-  background(0);
   starField = createStarField(300);
   redraw();
 }
 
 
 function draw() {
-  starField.forEach((star) => ellipse(star.x, star.y, star.size, star.size));
+  clear();
+  background(0);
+  starField.forEach(star => drawStar(star));
 
-  if (count === 5) {
-    starField[round(random(starField.length - 1))].size = round(random(1, 3));
-    count = 0;
+}
+
+function drawStar(star, intensity) {
+  let radius = star.size;
+  let opacity = 0;
+  let variation = round(random(0, 1));
+  if(!variation){
+    star.intensity = (star.intensity === 0.05) ? star.intensity + 0.01 : star.intensity - 0.01;
+  } else {
+    star.intensity = (star.intensity === 0.09) ? star.intensity - 0.01 : star.intensity + 0.01;
   }
-  count++;
+  for (let r = radius; r > 0; --r){
+    fill(`rgba(255, 255, 255, ${opacity})`);
+    ellipse(star.x, star.y, r, r);
+    opacity += 1/star.size * star.intensity;
+  }
 }
