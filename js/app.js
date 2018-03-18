@@ -1,4 +1,4 @@
-
+var canvas = {};
 function createStar() {
   var newStar = {
     x: round(random(window.innerWidth)),
@@ -19,33 +19,33 @@ function createStarField(nb) {
 }
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  canvas.cnv = createCanvas(windowWidth, windowHeight);
+  canvas.cnv.mouseMoved(mouseMoveHandler);
   noStroke();
   noFill();
-  // noLoop();
-  starField = createStarField(300);
-  count = 0;
+  noLoop();
+  canvas.starField = createStarField(400);
 }
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
-  starField = createStarField(300);
+  canvas.starField = createStarField(400);
   redraw();
 }
 
 
 function draw() {
-  starsWithVariation = chooseStars(10);
+  canvas.starsWithVariation = chooseStars(10);
 
   clear();
   background(0);
-  starField.forEach(star => drawStar(star));
+  canvas.starField.forEach(star => drawStar(star));
 }
 
 function chooseStars(nbOfStar) {
   let starChoosed = [];
   for (let i = 0; i < nbOfStar; i++){
-    starChoosed.push(starField[round(random(0, starField.length - 1))]);
+    starChoosed.push(canvas.starField[round(random(0, canvas.starField.length - 1))]);
   }
   return starChoosed;
 }
@@ -55,7 +55,7 @@ function drawStar(star) {
   let x = star.x;
   let y = star.y;
   let glow = 0;
-  if (starsWithVariation.findIndex(element => element === star) != -1) {
+  if (canvas.starsWithVariation.findIndex(element => element === star) != -1) {
     let direction = round(random(0, 1));
     let intensity = star.intensity;
     let variation = (intensity === 3) ? 1 :
@@ -76,4 +76,8 @@ function drawStar(star) {
   ellipse(x, y, radius / intensity, radius / intensity);
   noFill();
 
+}
+
+function mouseMoveHandler(){
+  console.log('moved');
 }
