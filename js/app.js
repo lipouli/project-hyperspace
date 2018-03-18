@@ -3,8 +3,9 @@ function createStar() {
   var newStar = {
     x: round(random(window.innerWidth)),
     y: round(random(window.innerHeight)),
-    size: 10,
-    intensity: 0.05
+    z: round(random(1, 5)),
+    size: 3,
+    intensity: round(random(4, 6))
   };
   return newStar;
 }
@@ -20,6 +21,8 @@ function createStarField(nb) {
 function setup() {
   createCanvas(windowWidth, windowHeight);
   noStroke();
+  noFill();
+  noLoop();
   starField = createStarField(300);
   count = 0;
 }
@@ -34,22 +37,27 @@ function windowResized() {
 function draw() {
   clear();
   background(0);
+  // var star = createStar();
   starField.forEach(star => drawStar(star));
-
+  // drawStar(star);
 }
 
-function drawStar(star, intensity) {
-  let radius = star.size;
-  let opacity = 0;
-  let variation = round(random(0, 1));
-  if(!variation){
-    star.intensity = (star.intensity === 0.05) ? star.intensity + 0.01 : star.intensity - 0.01;
-  } else {
-    star.intensity = (star.intensity === 0.09) ? star.intensity - 0.01 : star.intensity + 0.01;
+function drawStar(star) {
+  let radius = star.size * star.z;
+  let x = star.x;
+  let y = star.y;
+  let intensity = star.intensity;
+  let glow = 0;
+  let glowVariation = 0.1 / (radius - radius / intensity);
+
+  for (let r = radius; r > radius / intensity; --r){
+    stroke(`rgba(255, 255, 255, ${glow})`),
+    ellipse(x, y, r, r);
+    glow += glowVariation;
   }
-  for (let r = radius; r > 0; --r){
-    fill(`rgba(255, 255, 255, ${opacity})`);
-    ellipse(star.x, star.y, r, r);
-    opacity += 1/star.size * star.intensity;
-  }
+
+  fill(255, 255, 255);
+  ellipse(x, y, radius / intensity, radius / intensity);
+  noFill();
+
 }
