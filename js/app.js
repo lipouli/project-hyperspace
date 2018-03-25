@@ -2,6 +2,8 @@ var canvasJs = {
   cnv: null,
   starField: null,
   starsWithVariation: null,
+  nbStarsWithVariation: 10,
+  nbStars: 400,
   deviation: {
     x: 0,
     y: 0
@@ -32,18 +34,18 @@ function setup() {
   canvasJs.cnv.mouseMoved(mouseMoveHandler);
   noStroke();
   noFill();
-  canvasJs.starField = createStarField(400);
+  canvasJs.starField = createStarField(canvasJs.nbStars);
 }
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
-  canvasJs.starField = createStarField(400);
+  canvasJs.starField = createStarField(canvasJs.nbStars);
   redraw();
 }
 
 
 function draw() {
-  canvasJs.starsWithVariation = chooseStars(10);
+  canvasJs.starsWithVariation = chooseStars(canvasJs.nbStarsWithVariation);
 
   clear();
   background(0);
