@@ -63,8 +63,8 @@ function drawStar(star) {
   let radius = star.size * starZ;
   let deviationX = canvasJs.deviation.x;
   let deviationY = canvasJs.deviation.y;
-  let x = star.x + deviationX * (starZ / 6);
-  let y = star.y + deviationY * (starZ / 6);
+  let x = star.x + deviationX * (starZ / 15);
+  let y = star.y + deviationY * (starZ / 15);
   let glow = 0;
   if (canvasJs.starsWithVariation.findIndex(element => element === star) != -1) {
     let direction = round(random(0, 1));
