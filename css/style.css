@@ -7,3 +7,7 @@ body canvas{
   top: 0;
   left: 0;
 }
+body div p{
+  color: white;
+  z-index: 2;
+}

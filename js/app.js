@@ -1,5 +1,6 @@
 var canvasJs = {
   cnv: null,
+  enableGlow: false,
   starField: null,
   starsWithVariation: null,
   nbStarsWithVariation: 10,
@@ -61,13 +62,16 @@ function chooseStars(nbOfStar) {
 }
 
 function drawStar(star) {
-  let starZ = star.z;
-  let radius = star.size * starZ;
-  let deviationX = canvasJs.deviation.x;
-  let deviationY = canvasJs.deviation.y;
-  let x = star.x + deviationX * (starZ / 15);
-  let y = star.y + deviationY * (starZ / 15);
-  let glow = 0;
+  let option = {
+    starZ : star.z,
+    radius : star.z * star.size,
+    deviationX : canvasJs.deviation.x,
+    deviationY : canvasJs.deviation.y,
+    x : star.x + canvasJs.deviation.x * (star.z / 15),
+    y : star.y + canvasJs.deviation.y * (star.z / 15),
+    glow : 0,
+  }
+
   if (canvasJs.starsWithVariation.findIndex(element => element === star) != -1) {
     let direction = round(random(0, 1));
     let intensity = star.intensity;
@@ -76,19 +80,24 @@ function drawStar(star) {
                     (direction) ? 1 : -1;
     star.intensity += variation;
   }
-  let intensity = star.intensity;
-  let glowVariation = 0.1 / (radius - radius / intensity);
+  option.intensity = star.intensity;
 
-  for (let r = radius; r > radius / intensity; --r){
-    stroke(`rgba(255, 255, 255, ${glow})`),
-    ellipse(x, y, r, r);
-    glow += glowVariation;
-  }
+  if (canvasJs.enableGlow) createStarGlow(option);
 
   fill(255, 255, 255);
-  ellipse(x, y, radius / intensity, radius / intensity);
+  ellipse(option.x, option.y, option.radius / option.intensity, option.radius / option.intensity);
   noFill();
 
+}
+
+function createStarGlow(option) {
+  let glowVariation = 0.1 / (option.radius - option.radius / option.intensity);
+
+  for (let r = option.radius; r > option.radius / option.intensity; r--){
+    stroke(`rgba(255, 255, 255, ${option.glow})`),
+    ellipse(option.x, option.y, r, r);
+    option.glow += glowVariation;
+  }
 }
 
 function mouseMoveHandler(){
@@ -96,6 +105,6 @@ function mouseMoveHandler(){
   let centerY = windowHeight / 2;
   let diffX = (centerX - mouseX) / 20;
   let diffY = (centerY - mouseY) / 20;
-  canvasJs.deviation.x = diffX;
-  canvasJs.deviation.y = diffY;
+  canvasJs.deviation.x = round(diffX);
+  canvasJs.deviation.y = round(diffY);
 }
