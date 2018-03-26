@@ -32,7 +32,7 @@ function createStarField(nb) {
 
 function setup() {
   canvasJs.cnv = createCanvas(windowWidth, windowHeight);
-  canvasJs.cnv.mouseMoved(mouseMoveHandler);
+  document.addEventListener('mousemove', mouseMoveHandler);
   noStroke();
   noFill();
   canvasJs.starField = createStarField(canvasJs.nbStars);
@@ -103,8 +103,8 @@ function createStarGlow(option) {
 function mouseMoveHandler(){
   let centerX = windowWidth / 2;
   let centerY = windowHeight / 2;
-  let diffX = (centerX - mouseX) / 20;
-  let diffY = (centerY - mouseY) / 20;
+  let diffX = (centerX - mouseX) / 15;
+  let diffY = (centerY - mouseY) / 15;
   canvasJs.deviation.x = round(diffX);
   canvasJs.deviation.y = round(diffY);
 }
