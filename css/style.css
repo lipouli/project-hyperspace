@@ -1,13 +1,17 @@
 body {
   position: relative;
 }
+
 body canvas{
   display: block;
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 1;
 }
-body div p{
+
+body > div{
   color: white;
   z-index: 2;
+  position: relative;
 }
