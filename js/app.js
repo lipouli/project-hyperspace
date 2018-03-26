@@ -103,8 +103,8 @@ function createStarGlow(option) {
 function mouseMoveHandler(){
   let centerX = windowWidth / 2;
   let centerY = windowHeight / 2;
-  let diffX = (centerX - mouseX) / 15;
-  let diffY = (centerY - mouseY) / 15;
+  let diffX = (centerX - mouseX) / 10;
+  let diffY = (centerY - mouseY) / 5;
   canvasJs.deviation.x = round(diffX);
   canvasJs.deviation.y = round(diffY);
 }
