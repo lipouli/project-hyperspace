@@ -83,10 +83,6 @@ function chooseStars(nbOfStar) {
 
 function drawStar(star) {
 
-  canvasJs.deviation.x = round(rotationX);
-  canvasJs.deviation.y = round(rotationY);
-  let div = document.getElementsByTagName('div');
-  div.textContent = rotationX + ' ' + rotationY;
   let option = {
     starZ : star.z,
     radius : star.z * star.size,
