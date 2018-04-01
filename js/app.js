@@ -108,6 +108,10 @@ function drawStar(star) {
 
 }
 
+function deviceMoved() {
+  canvasJs.deviation.x = round(rotationX/10);
+  canvasJs.deviation.y = round(rotationY/10);
+}
 
 function mouseMoveHandler(){
   let centerX = windowWidth / 2;
