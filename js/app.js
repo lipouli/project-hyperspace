@@ -109,8 +109,8 @@ function drawStar(star) {
 }
 
 function deviceMoved() {
-  canvasJs.deviation.x = round(rotationX/10);
-  canvasJs.deviation.y = round(rotationY/10);
+  canvasJs.deviation.x = round(rotationX);
+  canvasJs.deviation.y = round(rotationY);
 }
 
 function mouseMoveHandler(){
