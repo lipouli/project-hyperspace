@@ -1,6 +1,5 @@
 var canvasJs = {
   cnv: null,
-  enableGlow: false,
   starField: null,
   starsWithVariation: null,
   nbStarsWithVariation: 10,
@@ -8,7 +7,27 @@ var canvasJs = {
   deviation: {
     x: 0,
     y: 0
-  }
+  },
+  starColors: [
+    {
+      name: 'white',
+      r: 255,
+      g: 255,
+      b: 255
+    },
+    {
+      name: 'blue',
+      r: 119,
+      g: 165,
+      b: 239
+    },
+    {
+      name: 'yellow',
+      r: 255,
+      g: 243,
+      b: 76
+    }
+  ]
 };
 
 function createStar() {
@@ -17,7 +36,8 @@ function createStar() {
     y: round(random(window.innerHeight)),
     z: round(random(1, 5)),
     size: 3,
-    intensity: round(random(3, 6))
+    intensity: round(random(3, 6)),
+    color: canvasJs.starColors[round(random(0,canvasJs.starColors.length - 1))],
   };
   return newStar;
 }
@@ -69,7 +89,7 @@ function drawStar(star) {
     deviationY : canvasJs.deviation.y,
     x : star.x + canvasJs.deviation.x * (star.z / 15),
     y : star.y + canvasJs.deviation.y * (star.z / 15),
-    glow : 0,
+    color : star.color,
   }
 
   if (canvasJs.starsWithVariation.findIndex(element => element === star) != -1) {
@@ -82,23 +102,12 @@ function drawStar(star) {
   }
   option.intensity = star.intensity;
 
-  if (canvasJs.enableGlow) createStarGlow(option);
-
-  fill(255, 255, 255);
+  fill(option.color.r, option.color.g, option.color.b);
   ellipse(option.x, option.y, option.radius / option.intensity, option.radius / option.intensity);
   noFill();
 
 }
 
-function createStarGlow(option) {
-  let glowVariation = 0.1 / (option.radius - option.radius / option.intensity);
-
-  for (let r = option.radius; r > option.radius / option.intensity; r--){
-    stroke(`rgba(255, 255, 255, ${option.glow})`),
-    ellipse(option.x, option.y, r, r);
-    option.glow += glowVariation;
-  }
-}
 
 function mouseMoveHandler(){
   let centerX = windowWidth / 2;
