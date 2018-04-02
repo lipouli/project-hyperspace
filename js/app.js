@@ -23,9 +23,9 @@ var canvasJs = {
     },
     {
       name: 'yellow',
-      r: 255,
-      g: 243,
-      b: 76
+      r: 252,
+      g: 244,
+      b: 138
     }
   ]
 };
@@ -82,7 +82,12 @@ function chooseStars(nbOfStar) {
 }
 
 function drawStar(star) {
-
+  let fps = frameRate();
+  let div = document.getElementById('test');
+  if (pRotationY || pRotationX) {
+    canvasJs.deviation.x = round(pRotationY * 1.5);
+    canvasJs.deviation.y = round(pRotationX * 1.5);
+  };
   let option = {
     starZ : star.z,
     radius : star.z * star.size,
@@ -106,14 +111,8 @@ function drawStar(star) {
   fill(option.color.r, option.color.g, option.color.b);
   ellipse(option.x, option.y, option.radius / option.intensity, option.radius / option.intensity);
   noFill();
+  div.textContent = 'FPS: ' + fps.toFixed(0);
 
-}
-
-function deviceMoved() {
-  canvasJs.deviation.x = round(rotationX);
-  canvasJs.deviation.y = round(rotationY);
-  let div = document.getElementsByTagName('div');
-  div.textContent = rotationX + ' ' + rotationY;
 }
 
 function mouseMoveHandler(){
@@ -123,4 +122,6 @@ function mouseMoveHandler(){
   let diffY = (centerY - mouseY) / 5;
   canvasJs.deviation.x = round(diffX);
   canvasJs.deviation.y = round(diffY);
+  let div = document.getElementById('test');
+  div.textContent = canvasJs.deviation.x + ' ' + canvasJs.deviation.y;
 }
